@@ -7,4 +7,4 @@ This tool is a simple tool to label the data in the J/ApJS/194/31 catalog. It is
 
 The application is designed to be simple and intuitive. The user can label the data by clicking on the data and selecting the appropriate label. The data is saved in a database. The user can also download the data in a csv file. 
 
-The application is hosted in Heroku, can be accessed at the following link: [Astro. Labeller](http://astro-labeller.herokuapp.com/)
+The application is hosted in Heroku, can be accessed at the following link: [Astro. Labeller](http://astro-labeller.herokuapp.com/){:target="_blank"}

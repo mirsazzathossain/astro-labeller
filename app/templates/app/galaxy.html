@@ -1,0 +1,151 @@
+{% extends 'main.html' %}
+
+
+{% block content %}
+{% load static %} 
+
+<div class="flex items-center justify-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
+	<div class="p-6 sm:p-12 w-5/6 bg-white rounded-lg shadow-xl dark:bg-gray-800">
+
+		<div class="w-full">
+
+			<!-- Image in left side of div -->
+			<div class="flex items-center">
+				<div class="w-2/5">
+					<figure class="zoom" onmousemove="zoom(event)" style="background-image: url({% static 'images/galaxies/'|add:galaxy_image %})">
+						<img src="{% static 'images/galaxies/'|add:galaxy_image %}" />
+					</figure>
+				</div>
+
+				<div class="w-1/5 mx-16 inline-block align-middle">
+					
+					<button class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700 transition-colors duration-150 border-2 border-gray-300 rounded-lg dark:text-gray-400 active:bg-transparent hover:border-purple-700 focus:border-purple-700 active:text-purple-700 focus:outline-none focus:shadow-outline-gray" onclick="window.location.href='prev'" type="submit" {% if not prev%} disabled {% endif %}>Previous</button>
+
+					<button class="flex items-center justify-center w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-gray-700 transition-colors duration-150 border-2 border-gray-300 rounded-lg dark:text-gray-400 active:bg-transparent hover:border-purple-700 focus:border-purple-700 active:text-purple-700 focus:outline-none focus:shadow-outline-gray" onclick="window.location.href='next'" type="submit" {% if not is_labeled or not next%} disabled {% endif %}>Next</button>
+				</div>
+
+				<div class="w-2/5">
+					<form method="POST">
+						{% csrf_token %}
+						<div class="grid grid-cols-3 gap-2 w-full max-w-screen-sm">
+							<div>
+								<input class="hidden" id="nat" type="radio" name="radio" value="nat" checked>
+								<label class="flex flex-col p-4 border-2 border-gray-50 cursor-pointer bg-white rounded-lg shadow-md" for="nat">
+									<div class="flex justify-between items-center mb-3">
+										<span class="mt-2 text-base">NAT</span>
+										<svg class="w-5 h-5 hidden" width="200px" height="200px" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+											<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+												<g id="checkmark-outline" fill-rule="nonzero">
+													<path d="M31.1442786,171.840796 C5.2779518,146.858262 -5.09578082,109.862896 4.01023318,75.0738981 C13.1162472,40.2848999 40.2848999,13.1162472 75.0738981,4.01023318 C109.862896,-5.09578082 146.858262,5.2779518 171.840796,31.1442786 C209.549474,70.1869539 209.010186,132.247241 170.628714,170.628714 C132.247241,209.010186 70.1869539,209.549474 31.1442786,171.840796 Z" id="Shape" fill="#6c2bd9"></path>
+													<polygon id="Path" fill="#fff" points="66.6666667 89.4527363 89.5522388 112.437811 132.338308 69.6517413 146.268657 83.7810945 89.5522388 140.298507 52.7363184 103.482587 66.6666667 89.3532338"></polygon>
+												</g>
+											</g>
+										</svg>
+									</div>
+									<span class="text-xs text-gray-400">Narrow Angle Tailed</span>
+								</label>
+							</div>
+							<div>
+								<input class="hidden" id="wat" type="radio" name="radio" value="wat" {% if label == "wat" %} checked {% endif %}> 
+								<label class="flex flex-col p-4 border-2 border-gray-50 cursor-pointer bg-white rounded-lg shadow-md" for="wat">
+									<div class="flex justify-between items-center mb-3">
+										<span class="mt-2 text-base">WAT</span>
+										<svg class="w-5 h-5 hidden" width="200px" height="200px" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+											<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+												<g id="checkmark-outline" fill-rule="nonzero">
+													<path d="M31.1442786,171.840796 C5.2779518,146.858262 -5.09578082,109.862896 4.01023318,75.0738981 C13.1162472,40.2848999 40.2848999,13.1162472 75.0738981,4.01023318 C109.862896,-5.09578082 146.858262,5.2779518 171.840796,31.1442786 C209.549474,70.1869539 209.010186,132.247241 170.628714,170.628714 C132.247241,209.010186 70.1869539,209.549474 31.1442786,171.840796 Z" id="Shape" fill="#6c2bd9"></path>
+													<polygon id="Path" fill="#fff" points="66.6666667 89.4527363 89.5522388 112.437811 132.338308 69.6517413 146.268657 83.7810945 89.5522388 140.298507 52.7363184 103.482587 66.6666667 89.3532338"></polygon>
+												</g>
+											</g>
+										</svg>
+									</div>
+									<span class="text-xs text-gray-400">Wide Angle Tailed</span>
+								</label>
+							</div>
+							<div>
+								<input class="hidden" id="trash" type="radio" name="radio" value="trash" {% if label == "trash" %} checked {% endif %}>
+								<label class="flex flex-col p-4 border-2 border-gray-50 cursor-pointer bg-white rounded-lg shadow-md" for="trash">
+									<div class="flex justify-between items-center mb-3">
+										<span class="mt-2 text-base">Trash</span>
+										<svg class="w-5 h-5 hidden" width="200px" height="200px" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+											<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+												<g id="checkmark-outline" fill-rule="nonzero">
+													<path d="M31.1442786,171.840796 C5.2779518,146.858262 -5.09578082,109.862896 4.01023318,75.0738981 C13.1162472,40.2848999 40.2848999,13.1162472 75.0738981,4.01023318 C109.862896,-5.09578082 146.858262,5.2779518 171.840796,31.1442786 C209.549474,70.1869539 209.010186,132.247241 170.628714,170.628714 C132.247241,209.010186 70.1869539,209.549474 31.1442786,171.840796 Z" id="Shape" fill="#6c2bd9"></path>
+													<polygon id="Path" fill="#fff" points="66.6666667 89.4527363 89.5522388 112.437811 132.338308 69.6517413 146.268657 83.7810945 89.5522388 140.298507 52.7363184 103.482587 66.6666667 89.3532338"></polygon>
+												</g>
+											</g>
+										</svg>
+									</div>
+									<span class="text-xs text-gray-400">Unclear or Distorted</span>
+								</label>
+							</div>
+						</div>
+						<button class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" type="submit">Submit</button>
+					</form>
+				</div>
+			</div>
+			<div class="w-2/5">
+				<p class="mt-2"><b class="text-purple-600">Comments:</b> <i>{{ comments }}</i></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<style>
+  input:checked + label {
+    border-color: #6c2bd9;
+  }
+
+  input:checked + label svg{
+    display: block;
+  }
+  button:disabled,
+  button[disabled]{
+	  	opacity: 0.7;
+		color: #d5d6d7;
+		cursor: not-allowed;
+		border-color: #d5d6d7;
+  }
+  button:disabled:hover,
+  button[disabled]:hover{
+	  	opacity: 0.7;
+		border-color: #d5d6d7;
+		cursor: not-allowed;
+  }
+  button:disabled:active,
+  button[disabled]:active{
+	  	opacity: 0.7;
+		color: #d5d6d7;
+  }
+</style>
+
+<style>
+	figure.zoom {
+		background-position: 50% 50%;
+		position: relative;
+		overflow: hidden;
+		cursor: zoom-in;
+	}
+	figure.zoom img:hover {
+		opacity: 0;
+	}
+	figure.zoom img {
+		transition: opacity 0.5s;
+		display: block;
+		width: 100%;
+	}
+</style>
+
+
+<script type="text/javascript">
+	function zoom(e){
+		var zoomer = e.currentTarget;
+		e.offsetX ? offsetX = e.offsetX : offsetX = e.touches[0].pageX
+		e.offsetY ? offsetY = e.offsetY : offsetX = e.touches[0].pageX
+		x = offsetX/zoomer.offsetWidth*100
+		y = offsetY/zoomer.offsetHeight*100
+		zoomer.style.backgroundPosition = x + '% ' + y + '%';
+	}
+</script>
+{% endblock %}

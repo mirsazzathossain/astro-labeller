@@ -1,0 +1,15 @@
+.page-light {
+    background-color: #ededf5;
+}
+
+.btn-primary {
+    background-color: #7e3af2 !important;
+    border-color: #7e3af2 !important;
+    box-shadow: none;
+}
+
+.btn-primary:focus, .btn-primary:active, .btn-primary:hover {
+    box-shadow: none;
+    background-color: #6c2bd9 !important;
+    border-color: #6c2bd9 !important;
+}

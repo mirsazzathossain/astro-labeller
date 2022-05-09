@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <title>Verfy Email Address</title>
+    <meta name="viewport" content="width = 375, initial-scale = -1">
+  </head>
+
+  <body style="background-color: #ffffff; font-size: 16px;">
+    <center>
+      <table align="center" border="0" cellpadding="0" cellspacing="0" style="height:100%; width:600px;">
+          <!-- BEGIN EMAIL -->
+          <tr>
+            <td align="center" bgcolor="#ffffff" style="padding:30px">
+               <p style="text-align:left">
+                    Hello {{ user.username }},<br><br>You're receiving this email because you have requested to create an user account at {{ domain }}. Please click the button below to verify your email address:
+                </p>
+
+                <p>
+                    <a target="_blank" style="text-decoration:none; background-color: black; border: black 1px solid; color: #fff; padding:10px 10px; display:block;" href="{{ protocol }}://{{ domain }}{% url 'accounts:activate' uidb64=uid token=token %}">
+                        <strong>Verfy Email Address</strong>
+                    </a>
+                </p>
+
+                <p style="text-align:left">
+                    This link can only be used once. If you did not make this request, you can simply ignore this email. Thanks for using our site!
+                </p>
+
+                <p style="text-align:left">
+                    Sincerely,<br>The {{ domain }} Team
+                </p>
+
+                <hr>
+
+                <p style="text-align:left">
+                    If you are having trouble clicking the "Verfy Email Address" button, copy and past the URL below to your web browser: 
+                    {% block reset_link %}
+                        {{ protocol }}://{{ domain }}{% url 'accounts:activate' uidb64=uid token=token %}
+                    {% endblock %}
+                </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </center>
+  </body>
+</html>

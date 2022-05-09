@@ -1,0 +1,1 @@
+web: gunicorn astro_labeler.wsgi --log-file -

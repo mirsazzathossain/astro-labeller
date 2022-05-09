@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radio Galaxy Classifier</title>
+
+    <!-- Vendor Stylesheets -->
+    <link rel="stylesheet" href="{% static 'css/plugins/bootstrap.min.css' %}">
+
+    <!-- Custom Style sheet -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+ 
+</head>
+<body>
+    
+    <!-- Body Start -->
+    <div> 
+        <section class='page-light py-lg-5 d-flex align-items-center justify-content-center vh-100'>
+            <div class="container px-5">
+                <div class="row gx-5 align-items-center">
+                    <div class="col-lg-7">
+                        <h2>Welcome to <span>Radio Galaxy Classifier's (RGC) Data Labeller Tool</span></h2>
+                        <p>
+                            RGC is a Radio Galaxy Classifier named after Radha Gobinda Chandra (1878–1975), a Bangladeshi-Indian variable star observer from the first half of the twentieth century.<br> <br>
+        
+                            RGC uses convolutional neural networks to classify radio galaxies (galaxies that emit radiation in radio wavelengths). It incorporates the current deep learning models available in astronomical literature. <br> <br>
+
+                            This tool is a web application that allows users to label radio galaxies in different categories. In our case, we are using the following categories:
+                            <ul>
+                                <li><b>Narrow Angle Tailed (NAT):</b> The angle between
+                                    the lobes of galaxies is less than 90◦</li>
+                                <li><b>Wide Angle Tailed (WAT):</b> The angle between
+                                    the lobes of galaxies is more than 90◦</li>
+                            </ul>
+                            If the galaxy is not in any of the above categories, it will be labelled as "Trash".<br> <br>
+                        </p>
+                        <a href="{% url 'app:get_started' %}" class="btn btn-primary px-5">Get Started</a>
+                    </div>
+        
+                    <div class="col-lg-5 d-none d-lg-block">
+                        <img src="{% static 'images/hero.svg' %}" alt="Welcome" class="img-fluid ps-xl-5">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- Body End -->
+
+    <!-- Vendor Scripts -->
+    <script src="{% static 'js/plugins/bootstrap.min.js' %}"></script>
+</body>
+</html>

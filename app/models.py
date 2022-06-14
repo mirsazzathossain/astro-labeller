@@ -24,6 +24,8 @@ class Catalogue(models.Model):
 
 class Label(models.Model):
     label = models.CharField(max_length=100)
+    confidence_score = models.IntegerField(null=True, blank=True)
+    comment = models.CharField(max_length=200, blank=True, null=True)
     labelled_by = models.ForeignKey(User, on_delete=models.CASCADE)
     catalogue = models.ForeignKey(Catalogue, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)

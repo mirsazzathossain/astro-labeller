@@ -37,10 +37,14 @@ def galaxy(request, galaxy_name):
         if Label.objects.filter(labelled_by=request.user, catalogue=galaxy).exists():
             is_labeled = True
             label = Label.objects.get(labelled_by=request.user, catalogue=galaxy)
+            comment = label.comment if label.comment else None
+            confidence_score = label.confidence_score if label.confidence_score else None
             label = label.label
         else:
             is_labeled = False
             label = None
+            comment = None
+            confidence_score = None
 
         try:
             galaxy_next = galaxy.get_next_by_timestamp()
@@ -60,6 +64,8 @@ def galaxy(request, galaxy_name):
             'prev': True if galaxy_prev.fcg != galaxy.fcg else False,
             'is_labeled': is_labeled,
             'label': label,
+            'comment': comment,
+            'confidence_score': confidence_score,
         }
 
         return render(request, 'app/galaxy.html', context)
@@ -72,9 +78,17 @@ def galaxy(request, galaxy_name):
         if Label.objects.filter(labelled_by=request.user, catalogue=galaxy).exists():
             label = Label.objects.get(labelled_by=request.user, catalogue=galaxy)
             label.label = label_text
+            label.comment = request.POST['comment']
+            label.confidence_score = request.POST['confidence_score']
             label.save()
         else:
-            label = Label(label=label_text, labelled_by=request.user, catalogue=galaxy)
+            label = Label(
+                    label=label_text, 
+                    confidence_score=request.POST['confidence_score'], 
+                    comment=request.POST['comment'], 
+                    labelled_by=request.user, 
+                    catalogue=galaxy
+                )
             label.save()
 
         return redirect('app:galaxy_next', galaxy_name=galaxy_name)

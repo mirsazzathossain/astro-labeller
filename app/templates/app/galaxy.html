@@ -4,6 +4,16 @@
 {% block content %}
 {% load static %} 
 
+<style>
+	input[type=range]::-webkit-slider-thumb {
+	  pointer-events: all;
+	  width: 24px;
+	  height: 24px;
+	  -webkit-appearance: none;
+	/* @apply w-6 h-6 appearance-none pointer-events-auto; */
+	}
+</style> 
+
 <div class="flex items-center justify-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
 	<div class="p-6 sm:p-12 w-5/6 bg-white rounded-lg shadow-xl dark:bg-gray-800">
 
@@ -27,7 +37,8 @@
 				<div class="w-2/5">
 					<form method="POST">
 						{% csrf_token %}
-						<div class="grid grid-cols-3 gap-2 w-full max-w-screen-sm">
+						<label for="radio" class="form-label">Class: </label>
+						<div class="grid grid-cols-3 gap-2 w-full max-w-screen-sm mt-2">
 							<div>
 								<input class="hidden" id="nat" type="radio" name="radio" value="nat" checked>
 								<label class="flex flex-col p-4 border-2 border-gray-50 cursor-pointer bg-white rounded-lg shadow-md" for="nat">
@@ -80,6 +91,25 @@
 								</label>
 							</div>
 						</div>
+						<div x-data="range()" x-init="trigger()" class="relative max-w-xl w-full mt-10">
+							<label for="confidence_score" class="form-label">Confidence Score: </label>
+							<div class='mt-2'>
+								<input type="range" step="5" x-bind:min="min" x-bind:max="max" x-on:input="trigger" x-model="value" class="absolute pointer-events-none appearance-none z-20 h-2 w-full opacity-0 cursor-pointer" name="confidence_score">
+								<div class="relative z-10 h-2">
+									<div class="absolute z-10 left-0 right-0 bottom-0 top-0 rounded-md bg-gray-200"></div>
+									<div class="absolute z-20 top-0 bottom-0 rounded-md bg-purple-600" x-bind:style="'right:'+tick+'%; left:0%'"></div>
+									<div class="absolute z-30 w-6 h-6 top-0 right-0 bg-purple-600 rounded-full -mt-2 -mr-3" x-bind:style="'right: '+tick+'%'"></div>
+									<div class="absolute top-0 flex flex-col items-center mt-5 group-hover:flex op-50 right-0 -mr-4" x-bind:style="'right: '+tick+'%'">
+										<div class="w-2 h-2 rotate-45 bg-purple-600"></div>
+										<span class="relative z-30 text-xs p-1 leading-none text-white text-center whitespace-no-wrap bg-purple-600 shadow-sm rounded -mt-1 w-8" x-text="value"></span>			
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class='mt-10'>
+							<label for="comment" class="form-label">Comment: </label>
+							<textarea class="block w-full mt-2 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter comments if you have any." name="comment">{% if comment is not None %}{{comment}}{% endif %}</textarea>
+						</div>
 						<button class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" type="submit">Submit</button>
 					</form>
 				</div>
@@ -93,6 +123,14 @@
 
 
 <style>
+  .rotate-45 {
+    --transform-rotate: 45deg;
+    transform: rotate(45deg);
+  }
+
+  .group:hover .group-hover\:flex {
+    display: flex;
+  }
   input:checked + label {
     border-color: #6c2bd9;
   }
@@ -147,5 +185,19 @@
 		y = offsetY/zoomer.offsetHeight*100
 		zoomer.style.backgroundPosition = x + '% ' + y + '%';
 	}
+
+	function range() {
+		x = {% if confidence_score is not None %}{{confidence_score}}{% else %}{{50}}{% endif %}
+        return {
+          min: 0, 
+          max: 100,
+          value: x,
+		  tick: 0,
+
+		  trigger(){
+			  this.tick = 100 - this.value;
+		  },
+        }
+    }
 </script>
 {% endblock %}
